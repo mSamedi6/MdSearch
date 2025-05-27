@@ -228,9 +228,6 @@
     <Compile Include="ChangesHistory.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="ClassInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="CompareFilesWindow.xaml.cs">
       <DependentUpon>CompareFilesWindow.xaml</DependentUpon>
     </Compile>
