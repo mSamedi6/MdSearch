@@ -1,0 +1,272 @@
+﻿<Window x:Class="MdSearch_1._0.MainWindow"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:local="clr-namespace:MdSearch_1._0"
+            mc:Ignorable="d"
+            KeyDown="Window_KeyDown"
+            AllowDrop="True"
+            Title="MdSearch" Height="600" Width="870" WindowStartupLocation="CenterScreen" MinHeight="600" MinWidth="870">
+    <Window.Resources>
+        <CollectionViewSource x:Key="FilesViewSource" Filter="CollectionViewSource_Filter"/>
+        <local:IconConverter x:Key="IconConverter"/>
+
+        <ContextMenu x:Key="OtherContextMenu" Width="Auto">
+            <MenuItem Header="История изменений" Click="History_Click"/>
+            <MenuItem Header="Аналитика сканирования" Click="Analytics_Click"/>
+            <MenuItem Header="Настройки безопасности" Click="SecuritySettings_Click"/>
+        </ContextMenu>
+
+        <ContextMenu x:Key="FolderContextMenu">
+            <MenuItem Header="Добавить папку" Click="AddFolder_Click"/>
+            <MenuItem Header="Переименовать" Click="RenameFolder_Click"/>
+            <MenuItem Header="Удалить" Click="DeleteFolder_Click"/>
+        </ContextMenu>
+    </Window.Resources>
+
+    <Window.Background>
+        <ImageBrush ImageSource="/Resources/background.png"/>
+    </Window.Background>
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="#66000000" Margin="0" Padding="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Сравнить" Style="{StaticResource UnderlinedButtonStyle}" Click="Compare_Click" ToolTip="Наглядное сравнение метаданных"/>
+                <Button Content="Экспорт" Style="{StaticResource UnderlinedButtonStyle}" Click="Export_Click" ToolTip="Отчеты по метаданным"/>
+                <Button Content="О MdSearch" Style="{StaticResource UnderlinedButtonStyle}" Click="About_Click"/>
+                <Button x:Name="ClearAll" Style="{StaticResource ImageButtonStyle}" Click="ClearAll_Click" ToolTip="Очистить все">
+                    <Image Source="/Resources/clear_icon.png" Width="30" Height="27"/>
+                </Button>
+                <Button x:Name="ManageUsers" Style="{StaticResource ImageButtonStyle}" Click="ManageUsers_Click" ToolTip="Управление пользователями">
+                    <Image Source="/Resources/icon_user.png" Width="30" Height="27"/>
+                </Button>
+                <Button x:Name="Other" Style="{StaticResource ImageButtonStyle}" 
+                            ToolTip="Дополнительные действия"
+                            ContextMenu="{StaticResource OtherContextMenu}"
+                            Click="Other_Click">
+                    <Image Source="/Resources/other.png" Width="30" Height="27" RenderTransformOrigin="0.55,0.5"/>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <Grid Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="226"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Margin="0,-10,0,0" Background="#80000000" CornerRadius="5" Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Папки" FontSize="16" Foreground="#FFEAEA91" Margin="5,0,0,10"/>
+                    <ListView x:Name="FoldersListView" ItemContainerStyle="{StaticResource FolderListViewItemStyle}"
+                              Grid.Row="1" 
+                              Background="Transparent" 
+                              BorderThickness="0"
+                              ContextMenu="{StaticResource FolderContextMenu}"
+                              AllowDrop="True"
+                              Drop="FoldersListView_Drop"
+                              DragEnter="FoldersListView_DragEnter"
+                              DragOver="FoldersListView_DragOver"
+                              DragLeave="FoldersListView_DragLeave"
+                              SelectionChanged="FoldersListView_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Resources/folder_icon.png" Width="16" Height="16" Margin="0,0,10,0"/>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16" Foreground="White"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="6">
+                        <Button Content="+ Создать папку" Margin="0,0,10,0" HorizontalAlignment="Stretch" 
+                                Click="AddFolder_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                        <Button Click="LoadingFolder_Click" ToolTip="Загрузить папку с диска">
+                            <Image Source="/Resources/add_folder_system.png" HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center" Width="30" Height="27"/>
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="5"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,-8,0,0">
+                    <Button Content="Загрузить файлы" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230" 
+                            Height="44" Click="LoadingFiles_Click" Margin="0,0,10,0" FontSize="16"/>
+                    <Button Content="Загрузить папку" HorizontalAlignment="Center" VerticalAlignment="Center" Width="230" 
+                            Height="44" Click="LoadingFolder_Click" FontSize="16"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="1,10,0,-0.9">
+                    <Border Grid.Row="1" Background="#80000000" Margin="0" Padding="10,5,0,5"
+                            CornerRadius="5,5,0,0" BorderThickness="1,1,1,0" BorderBrush="#80000000">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                <TextBlock x:Name="TotalFilesTextBlock" Text="Всего файлов: 0" FontSize="16" Margin="0,0,10,0" Foreground="#FFEAEA91"/>
+                                <TextBlock x:Name="FilteredFilesTextBlock" Text="Найдено файлов: 0" FontSize="16" Foreground="#FFEAEA91"/>
+                            </StackPanel>
+                            <Button x:Name="SortButton" Style="{StaticResource ImageButtonStyle}" Click="SortButton_Click"
+                                        ToolTip="Сортировка: новые → старые" VerticalAlignment="Center" Grid.Column="1" Padding="10,0,10,0" Margin="10,0,10,0">
+                                <Image x:Name="SortIconImage" Source="/Resources/sort_icon_dp.png" Width="20" Height="20"/>
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="5"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+
+                <Border Grid.Row="2" Margin="0,0,0,5" Padding="1">
+                    <ListView x:Name="FilesListView" 
+                              ContextMenuOpening="FilesListView_ContextMenuOpening"
+                              SelectionMode="Multiple" 
+                              ItemsSource="{Binding Source={StaticResource FilesViewSource}}"
+                              Background="#80000000" 
+                              BorderThickness="0" 
+                              MouseDoubleClick="ListView_MouseDoubleClick" 
+                              PreviewMouseRightButtonDown="FilesListView_PreviewMouseRightButtonDown"
+                              AllowDrop="True"
+                              DragEnter="FilesListView_DragEnter"
+                              Drop="FilesListView_Drop"
+                              PreviewMouseMove="FilesListView_PreviewMouseMove"
+                              DragOver="FilesListView_DragOver"
+                              PreviewMouseLeftButtonDown="FilesListView_PreviewMouseLeftButtonDown"
+                              DragLeave="FilesListView_DragLeave">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox x:Name="FileCheckBox" VerticalAlignment="Center" Margin="0,0,10,0" IsChecked="{Binding IsSelected, Mode=OneWayToSource}" 
+                                              Visibility="Collapsed" Foreground="White"/>
+                                    <Image Source="{Binding FilePath, Converter={StaticResource IconConverter}}" Width="16" Height="16" Margin="0,0,10,0"/>
+                                    <TextBlock Text="{Binding FileName}" VerticalAlignment="Center" FontSize="16" Foreground="White">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip FontSize="16" Background="#A8000000" BorderBrush="Transparent" >
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding FileName}" FontWeight="Bold" Foreground="White"/>
+                                                    <TextBlock Text="{Binding FileFormat, StringFormat='Расширение: {0}'}" Foreground="White"/>
+                                                    <TextBlock Text="{Binding FormattedFileSize, StringFormat='Размер: {0}'}" Foreground="White"/>
+                                                    <TextBlock Text="{Binding UploadDate, StringFormat='Дата загрузки: {0:dd.MM.yyyy}'}" Foreground="White"/>
+                                                    <TextBlock Text="{Binding CreationDate, StringFormat='Дата создания: {0:dd.MM.yyyy}'}" Foreground="White"/>
+                                                    <TextBlock Text="{Binding ModificationDate, StringFormat='Дата изменения: {0:dd.MM.yyyy}'}" Foreground="White"/>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                        </TextBlock>
+                                </StackPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter TargetName="FileCheckBox" Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="FileCheckBox" Property="Visibility" Value="Visible"/>
+                                    </Trigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+
+                        <ListView.ContextMenu>
+                            <ContextMenu x:Name="FileContextMenu" Width="Auto" StaysOpen="True">
+                                <MenuItem Header="Переименовать" Click="RenameMenuItem_Click"/>
+                                <MenuItem Header="Удалить" Click="DeleteMenuItem_Click"/>
+                                <MenuItem Header="Удалить из папки" Click="DeleteFolderMenuItem_Click"/>
+                                <MenuItem Header="Сканировать" Click="ScanMenuItem_Click"/>
+                                <MenuItem Header="Расположение файла" Click="OpenFileLocationMenuItem_Click"/>
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                    </ListView>
+                </Border>
+
+                <Border Grid.Row="3" Background="#80000000" CornerRadius="5" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Header="Поиск" FontSize="16" Grid.Column="0" Background="Transparent" BorderBrush="Transparent" Foreground="White">
+                            <TextBox x:Name="SearchTextBox" Height="45" VerticalContentAlignment="Center" 
+                                 GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" 
+                                 Text="Введите атрибуты файла..." FontSize="16" Foreground="#FF9E9C9C" Padding="5"/>
+                        </GroupBox>
+                        <Button x:Name="FilterButton" Style="{StaticResource ImageButtonStyle}" Click="FilterButton_Click" ToolTip="Фильтры" Grid.Column="1" Margin="7,0,0,0" Height="73" VerticalAlignment="Top">
+                            <Image Source="/Resources/filter_icon.png" Width="30" Height="27"/>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <StackPanel x:Name="FilterPanel" Orientation="Vertical" Visibility="Collapsed" Grid.Row="4" Margin="0,5,-10,0" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,10,10">
+                        <Border Background="#80000000" CornerRadius="5" Margin="0,0,20,0" Padding="10">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="по размеру" FontSize="16" Margin="0,0,0,5" 
+                                   Foreground="#FFEAEA91" HorizontalAlignment="Right"/>
+                                <ComboBox x:Name="SizeFilterComboBox" 
+                                  Width="140" Height="28" FontSize="14" Foreground="Black"
+                                  SelectionChanged="SizeFilterComboBox_SC">
+                                    <ComboBoxItem Content="Все" IsSelected="True"/>
+                                    <ComboBoxItem Content="Меньше 1 МБ"/>
+                                    <ComboBoxItem Content="1-10 МБ"/>
+                                    <ComboBoxItem Content="10-100 МБ"/>
+                                    <ComboBoxItem Content="Больше 100 МБ"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Background="#80000000" CornerRadius="5" Padding="10">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="по типу" FontSize="16" Margin="0,0,0,5" 
+                                               Foreground="#FFEAEA91" HorizontalAlignment="Right"/>
+                                <ComboBox x:Name="TypeFilterComboBox" 
+                                              Width="250" Height="28" FontSize="14" Foreground="Black"
+                                              SelectionChanged="TypeFilterComboBox_SC">
+                                    <ComboBoxItem IsSelected="True" Content="Все типы"/>
+                                    <ComboBoxItem Content="Текстовые (.txt)"/>
+                                    <ComboBoxItem Content="Документы (.doc, .docx)"/>
+                                    <ComboBoxItem Content="Таблицы (.xls, .xlsx)"/>
+                                    <ComboBoxItem Content="Изображения (.jpg, .jpeg, .png)"/>
+                                    <ComboBoxItem Content="Графика (.gif, .bmp)"/>
+                                    <ComboBoxItem Content="Аудио (.mp3, .wav, .aac)"/>
+                                    <ComboBoxItem Content="Видео (.mp4, .avi, .mkv, .mov, .wmv)"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>

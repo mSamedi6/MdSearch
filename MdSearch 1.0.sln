@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MdSearch 1.0", "MdSearch 1.0\MdSearch 1.0.csproj", "{A9724201-D6AF-4E90-99A2-D859764CA883}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MdSearch", "MdSearch\MdSearch.vdproj", "{1270E3CC-AA40-6252-8DFF-0924D420975A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9724201-D6AF-4E90-99A2-D859764CA883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9724201-D6AF-4E90-99A2-D859764CA883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9724201-D6AF-4E90-99A2-D859764CA883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9724201-D6AF-4E90-99A2-D859764CA883}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1270E3CC-AA40-6252-8DFF-0924D420975A}.Debug|Any CPU.ActiveCfg = Debug
+		{1270E3CC-AA40-6252-8DFF-0924D420975A}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6B92115-343F-4CAB-9226-0F6E20B5D712}
+	EndGlobalSection
+EndGlobal

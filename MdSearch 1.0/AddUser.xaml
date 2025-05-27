@@ -1,0 +1,77 @@
+﻿<Window x:Class="MdSearch_1._0.AddUserAdmin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Добавить пользователя" 
+        Height="395" MinHeight="395"  
+        Width="400" MinWidth="400"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/Resources/background.png"/>
+    </Window.Background>
+
+    <Border Background="#66000000" 
+            CornerRadius="5" 
+            Margin="10"
+            Padding="15">
+
+        <Grid VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,10">
+                <Label Content="Логин:" Foreground="#FFEAEA91" FontSize="16"/>
+                <TextBox x:Name="LoginTextBox" FontSize="16" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Orientation="Vertical" Margin="0,0,0,10">
+                <Label Content="Email:" Foreground="#FFEAEA91" FontSize="16"/>
+                <TextBox x:Name="EmailTextBox" FontSize="16" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Orientation="Vertical" Margin="0,0,0,10">
+                <Label Content="Пароль:" Foreground="#FFEAEA91" FontSize="16"/>
+                <TextBox x:Name="PasswordBox" FontSize="16" VerticalContentAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Vertical" Margin="0,0,0,10">
+                <Label Content="Роль:" Foreground="#FFEAEA91" FontSize="16"/>
+                <ComboBox x:Name="RoleComboBox" FontSize="16" VerticalContentAlignment="Center"
+                          DisplayMemberPath="RoleName"
+                          SelectedValuePath="Id"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button x:Name="GeneratePasswordButton"
+                        Click="GeneratePasswordButton_Click"
+                        ToolTip="Сгенерировать надёжный пароль"
+                        Width="45"
+                        Height="40"
+                        Margin="0,0,10,0"
+                        Padding="0">
+                    <Image Source="/Resources/generate_icon.png"
+                           Width="30"
+                           Height="27"/>
+                </Button>
+
+                <Button Content="ОК" 
+                        Width="100" 
+                        Click="OkButton_Click"/>
+
+                <Button Content="Отмена" 
+                        Width="100" 
+                        Margin="10,0,0,0" 
+                        Click="CancelButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

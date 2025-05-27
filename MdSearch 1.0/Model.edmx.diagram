@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e214ae792ca1432dbb0103800e98e494" Name="Diagram1" ZoomLevel="47">
+        <EntityTypeShape EntityType="Model.AudioFiles" Width="1.5" PointX="12.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ChangesHistory" Width="1.5" PointX="18.375" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Documents" Width="1.5" PointX="16.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Files" Width="1.5" PointX="14.625" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Folders" Width="1.5" PointX="12.625" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Images" Width="1.5" PointX="10.5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Reports" Width="1.5" PointX="16.5" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Roles" Width="1.5" PointX="8.75" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Users" Width="1.5" PointX="10.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.VideoFiles" Width="1.5" PointX="18.375" PointY="1.875" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK__AudioFile__FileI__531856C7" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_AudioFiles_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_ChangesHistory_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Documents__FileI__55009F39" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Documents_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Images__FileID__59C55456" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Reports__FileID__56E8E7AB" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__VideoFile__FileI__51300E55" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Files_Folders" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Images_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Reports_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_VideoFiles_Files" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Users_Roles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.Settings" Width="1.5" PointX="14.5" PointY="0.5" />
+        <EntityTypeShape EntityType="Model.UserPermissions" Width="1.5" PointX="12.625" PointY="0.5" />
+        <AssociationConnector Association="Model.FK__UserPermi__UserI__6E8B6712" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
